@@ -1,0 +1,9 @@
+[submodule "sys/scintilla"]
+	path = sys/scintilla
+	url = https://github.com/mirror/scintilla
+[submodule "sys/scinterm"]
+	path = sys/scinterm
+	url = https://github.com/rhaberkorn/scinterm-mirror
+[submodule "sys/pdcurses"]
+	path = sys/pdcurses
+	url = https://github.com/wmcbrine/PDCurses
