@@ -1,7 +1,4 @@
-//#[cfg(all(feature = "win32", target_os = "windows"))] // TODO cfg/any
 extern crate cc;
-
-//#[cfg(all(feature = "win32", target_os = "windows"))]
 extern crate embed_resource;
 
 use std::env;
@@ -179,9 +176,16 @@ pub fn main() {
         .file("../lexers/LexVisualProlog.cxx")
         .file("../lexers/LexYAML.cxx");
 
-    cc_build.file("PlatWin.cxx").file("HanjaDic.cxx");
+    cc_build
+        .file("PlatWin.cxx")
+        .file("HanjaDic.cxx")
+        .file("ScintillaWin.cxx");
+        
     env::set_current_dir("win32").expect("Could not change dir");
     cc_build.compile("scilexer");
 
     embed_resource::compile("ScintRes.rc");
+    
+    println!("cargo:rustc-link-lib=dylib=imm32");
+    println!("cargo:rustc-link-lib=dylib=uuid");
 }
