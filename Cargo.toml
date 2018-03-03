@@ -21,8 +21,8 @@ win32 = ["cc", "embed-resource"]
 gtk = []
 qt = ["cc"]
 curses = ["cc", "embed-resource"]
-cocoa = []
-default = ["qt"]
+cocoa = ["cc"]
+default = []
 
 [build-dependencies]
 cc = { version = "~1.0", optional = true }
