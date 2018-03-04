@@ -10,11 +10,6 @@ pub fn main() {
         .unwrap();
         
     env::set_current_dir("qt").expect("Could not change dir to 'qt'");    
-    /*env::set_current_dir("ScintillaEdit").expect("Could not change dir to 'ScintillaEdit'");    
-    Command::new("python")
-        .args(&["WidgetGen.py"])
-        .status()
-        .unwrap(); */
         
     let mut qt_location = String::from_utf8(Command::new("qmake")
 	        .args(&["-query", "QT_INSTALL_HEADERS"])
@@ -186,7 +181,6 @@ pub fn main() {
 
     cc_build
         .include("ScintillaEditBase")
-        //.include("ScintillaEdit")
         .include("../../qt")
         .include(format!("{}", qt_location))
         .include(format!("{}/QtCore", qt_location))
@@ -200,10 +194,7 @@ pub fn main() {
 	    .file("ScintillaEditBase/ScintillaEditBase.cpp")
         .file("ScintillaEditBase/ScintillaQt.cpp")
         .file("ScintillaEditBase/PlatQt.cpp")
-        //.file("ScintillaEdit/ScintillaDocument.cpp")
-        //.file("ScintillaEdit/ScintillaEdit.cpp");
         .file("../../qt/qt_widgets_c_scintilla_ScintillaEditBase.cpp");
         
-    //env::set_current_dir("..").expect("Could not change dir");
     cc_build.compile("scilexer");
 }

@@ -15,11 +15,16 @@ path = "src/lib.rs"
 
 [dependencies]
 libc = "~0.2"
+qt_core = {version = "~0.2", optional = true}
+qt_gui = {version = "~0.2", optional = true}
+qt_widgets = {version = "~0.2", optional = true}
+cpp_utils = {version = "~0.2", optional = true}
+qt_core_custom_events = {version = "*", path = "../qt_core_custom_events", optional = true}
 
 [features]
 win32 = ["cc", "embed-resource"]
 gtk = []
-qt = ["cc"]
+qt5 = ["cc","qt_core","qt_gui","qt_widgets","qt_core_custom_events","cpp_utils"]
 curses = ["cc", "embed-resource"]
 cocoa = ["cc"]
 default = []
