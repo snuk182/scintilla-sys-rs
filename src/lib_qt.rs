@@ -14,7 +14,6 @@ extern "C" {
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(ptr: *mut ScintillaEditBase) -> *mut ::qt_core::object::Object;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(ptr: *mut ScintillaEditBase) -> *mut ::qt_widgets::frame::Frame;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(ptr: *mut ScintillaEditBase) -> *mut ::qt_widgets::abstract_scroll_area::AbstractScrollArea;
-
 }
 
 /// C++ type: <span style='color: green;'>```QCustomEventFilter```</span>

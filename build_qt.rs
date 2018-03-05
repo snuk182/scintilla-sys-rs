@@ -17,6 +17,37 @@ pub fn main() {
 	        .unwrap().stdout).unwrap();   
     let len = qt_location.len(); 
     qt_location.split_off(len-1);
+    
+    Command::new("moc")
+        .args(&[
+	        	"-I../include",
+		        "-I../lexlib",
+		        "-I../src",
+	        	"-IScintillaEditBase",
+		        "-I../../qt",
+		        &format!("-I{}", qt_location),
+		        &format!("-I{}/QtCore", qt_location),
+		        &format!("-I{}/QtGui", qt_location),
+		        &format!("-I{}/QtWidgets", qt_location),
+		        "ScintillaEditBase/ScintillaQt.h", "-o", "ScintillaEditBase/moc_ScintillaQt.cpp"
+        	])
+        .status()
+        .unwrap();
+    Command::new("moc")
+        .args(&[
+	        	"-I../include",
+		        "-I../lexlib",
+		        "-I../src",
+	        	"-IScintillaEditBase",
+		        "-I../../qt",
+		        &format!("-I{}", qt_location),
+		        &format!("-I{}/QtCore", qt_location),
+		        &format!("-I{}/QtGui", qt_location),
+		        &format!("-I{}/QtWidgets", qt_location),
+		        "ScintillaEditBase/ScintillaEditBase.h", "-o", "ScintillaEditBase/moc_ScintillaEditBase.cpp"
+        	])
+        .status()
+        .unwrap();    
         
     let mut cc_build = cc::Build::new();
     cc_build
@@ -191,6 +222,8 @@ pub fn main() {
         .define("SCI_LEXER",Some("1"))
         .define("_CRT_SECURE_NO_DEPRECATE",Some("1"))
         .flag("-std=c++14")
+        .file("ScintillaEditBase/moc_ScintillaQt.cpp")
+	    .file("ScintillaEditBase/moc_ScintillaEditBase.cpp")
 	    .file("ScintillaEditBase/ScintillaEditBase.cpp")
         .file("ScintillaEditBase/ScintillaQt.cpp")
         .file("ScintillaEditBase/PlatQt.cpp")
