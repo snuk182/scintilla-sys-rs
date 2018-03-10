@@ -1,5 +1,8 @@
 #include "qt_widgets_c_scintilla_ScintillaEditBase.h"
 
+ScintillaEditBase * qt_widgets_c_scintilla_ScintillaEditBase_new_no_args() {
+	return new ScintillaEditBase();
+}
 ScintillaEditBase * qt_widgets_c_scintilla_ScintillaEditBase_new(QWidget *parent) {
 	return new ScintillaEditBase(parent);
 }

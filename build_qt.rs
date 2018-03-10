@@ -9,14 +9,14 @@ pub fn main() {
         .status()
         .unwrap();
         
-    env::set_current_dir("qt").expect("Could not change dir to 'qt'");    
-        
     let mut qt_location = String::from_utf8(Command::new("qmake")
 	        .args(&["-query", "QT_INSTALL_HEADERS"])
 	        .output()
 	        .unwrap().stdout).unwrap();   
     let len = qt_location.len(); 
     qt_location.split_off(len-1);
+    
+    env::set_current_dir("qt").expect("Could not change dir to 'qt'");    
     
     Command::new("moc")
         .args(&[
@@ -33,6 +33,7 @@ pub fn main() {
         	])
         .status()
         .unwrap();
+        
     Command::new("moc")
         .args(&[
 	        	"-I../include",
@@ -47,7 +48,7 @@ pub fn main() {
 		        "ScintillaEditBase/ScintillaEditBase.h", "-o", "ScintillaEditBase/moc_ScintillaEditBase.cpp"
         	])
         .status()
-        .unwrap();    
+        .unwrap();
         
     let mut cc_build = cc::Build::new();
     cc_build
@@ -55,12 +56,12 @@ pub fn main() {
         .include("../lexlib")
         .include("../src")
         //.cpp_link_stdlib("stdc++")
-        .define("STATIC_BUILD", None)
-        .opt_level(3)
+        .opt_level(0)
         .cpp(true)
+        .define("STATIC_BUILD", None)
         //.debug(true)
-        //.flag("-fkeep-inline-functions")
-        .warnings(false)
+        .flag("-fkeep-inline-functions")
+        //.warnings(false)
         
         .file("../src/AutoComplete.cxx")
         .file("../src/CallTip.cxx")
@@ -213,14 +214,20 @@ pub fn main() {
     cc_build
         .include("ScintillaEditBase")
         .include("../../qt")
-        .include(format!("{}", qt_location))
-        .include(format!("{}/QtCore", qt_location))
-        .include(format!("{}/QtGui", qt_location))
-        .include(format!("{}/QtWidgets", qt_location))
+        .flag("-isystem").flag(&format!("{}", qt_location))
+        .flag("-isystem").flag(&format!("{}/QtCore", qt_location))
+        .flag("-isystem").flag(&format!("{}/QtGui", qt_location))
+        .flag("-isystem").flag(&format!("{}/QtWidgets", qt_location))
+        .flag("-isystem").flag(&format!("{}/mkspecs/linux-g++-64", qt_location))
         .define("SCINTILLA_QT",Some("1"))
         .define("MAKING_LIBRARY",Some("1"))
         .define("SCI_LEXER",Some("1"))
         .define("_CRT_SECURE_NO_DEPRECATE",Some("1"))
+        //.define("QT_NO_DEBUG", None)
+        .define("QT_WIDGETS_LIB", None)
+        .define("QT_GUI_LIB", None)
+        .define("QT_CORE_LIB", None)
+        
         .flag("-std=c++14")
         .file("ScintillaEditBase/moc_ScintillaQt.cpp")
 	    .file("ScintillaEditBase/moc_ScintillaEditBase.cpp")

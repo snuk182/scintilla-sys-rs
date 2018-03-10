@@ -14,9 +14,10 @@
 #include "../scintilla/qt/ScintillaEditBase/ScintillaEditBase.h"
 
 extern "C" {
+	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT ScintillaEditBase * qt_widgets_c_scintilla_ScintillaEditBase_new_no_args();
 	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT ScintillaEditBase * qt_widgets_c_scintilla_ScintillaEditBase_new(QWidget *parent);
 	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT void qt_widgets_c_scintilla_ScintillaEditBase_delete(ScintillaEditBase * thisptr);
-	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT sptr_t qt_widgets_c_scintilla_ScintillaEditBase_send(unsigned int iMessage, uptr_t wParam, sptr_t lParam);
+	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT sptr_t qt_widgets_c_scintilla_ScintillaEditBase_send(ScintillaEditBase * thisptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam);
 
 	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(QAbstractScrollArea* ptr);
 	QT_WIDGETS_C_SCINTILLA_SCINTILLA_EDIT_BASE_EXPORT ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(QFrame* ptr);
