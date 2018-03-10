@@ -39,3 +39,16 @@ QAbstractScrollArea* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbs
   return static_cast<QAbstractScrollArea*>(ptr);
 }
 
+ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(QObject* ptr) {
+	return static_cast<ScintillaEditBase*>(ptr);
+}
+ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(QFrame* ptr) {
+	return static_cast<ScintillaEditBase*>(ptr);
+}
+ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(QAbstractScrollArea* ptr) {
+	return static_cast<ScintillaEditBase*>(ptr);
+}
+ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(QWidget* ptr) {
+	return static_cast<ScintillaEditBase*>(ptr);
+}
+

@@ -1,4 +1,4 @@
-use qt_core::cpp_utils::{CppBox, CppDeletable, StaticCast, DynamicCast, Deleter};
+use qt_core::cpp_utils::{CppBox, CppDeletable, StaticCast, DynamicCast, UnsafeStaticCast, Deleter};
 use qt_core::object::Object;
 use qt_widgets::widget::Widget;
 use qt_widgets::abstract_scroll_area::AbstractScrollArea;
@@ -17,6 +17,11 @@ extern "C" {
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut Frame) -> *mut ScintillaEditBase;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QWidget(ptr: *mut Widget) -> *mut ScintillaEditBase;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QObject(ptr: *mut Object) -> *mut ScintillaEditBase;
+  
+  pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(ptr: *mut Object) -> *mut ScintillaEditBase;
+  pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut Frame) -> *mut ScintillaEditBase;
+  pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr: *mut AbstractScrollArea) -> *mut ScintillaEditBase;
+  pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(ptr: *mut Widget) -> *mut ScintillaEditBase;
 
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(ptr: *mut ScintillaEditBase) -> *mut Widget;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(ptr: *mut ScintillaEditBase) -> *mut Object;
@@ -236,6 +241,56 @@ impl StaticCast<AbstractScrollArea> for ScintillaEditBase {
   fn static_cast(&self) -> &AbstractScrollArea {
     let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(self as *const ScintillaEditBase as *mut ScintillaEditBase) };
     unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
+  }
+}
+
+impl UnsafeStaticCast<ScintillaEditBase> for Object {
+  unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
+    let ffi_result =
+      qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(self as *mut Object);
+    ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
+  }
+
+  unsafe fn static_cast(&self) -> &ScintillaEditBase {
+    let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(self as *const Object as *mut Object);
+    ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+  }
+}
+
+impl UnsafeStaticCast<ScintillaEditBase> for Frame {
+  unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
+    let ffi_result =
+      qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(self as *mut Frame);
+    ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
+  }
+
+  unsafe fn static_cast(&self) -> &ScintillaEditBase {
+    let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(self as *const Frame as *mut Frame);
+    ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+  }
+}
+
+impl UnsafeStaticCast<ScintillaEditBase> for AbstractScrollArea {
+  unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
+    let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(self as *mut AbstractScrollArea);
+    ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
+  }
+
+  unsafe fn static_cast(&self) -> &ScintillaEditBase {
+    let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(self as *const AbstractScrollArea as *mut AbstractScrollArea);
+    ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+  }
+}
+
+impl UnsafeStaticCast<ScintillaEditBase> for Widget {
+  unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
+    let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(self as *mut Widget);
+    ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
+  }
+
+  unsafe fn static_cast(&self) -> &ScintillaEditBase {
+    let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(self as *const Widget as *mut Widget);
+    ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
   }
 }
 
