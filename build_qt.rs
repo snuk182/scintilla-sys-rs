@@ -50,6 +50,22 @@ pub fn main() {
         .status()
         .unwrap();
         
+    Command::new("moc")
+        .args(&[
+	        	"-I../include",
+		        "-I../lexlib",
+		        "-I../src",
+	        	"-IScintillaEditBase",
+		        "-I../../qt",
+		        &format!("-I{}", qt_location),
+		        &format!("-I{}/QtCore", qt_location),
+		        &format!("-I{}/QtGui", qt_location),
+		        &format!("-I{}/QtWidgets", qt_location),
+		        "../../qt/qt_widgets_c_scintilla_ScintillaEditBase.h", "-o", "../../qt/moc_qt_widgets_c_scintilla_ScintillaEditBase.cpp"
+        	])
+        .status()
+        .unwrap();    
+        
     let mut cc_build = cc::Build::new();
     cc_build
         .include("../include")
@@ -234,7 +250,8 @@ pub fn main() {
 	    .file("ScintillaEditBase/ScintillaEditBase.cpp")
         .file("ScintillaEditBase/ScintillaQt.cpp")
         .file("ScintillaEditBase/PlatQt.cpp")
-        .file("../../qt/qt_widgets_c_scintilla_ScintillaEditBase.cpp");
+        .file("../../qt/qt_widgets_c_scintilla_ScintillaEditBase.cpp")
+        .file("../../qt/moc_qt_widgets_c_scintilla_ScintillaEditBase.cpp");
         
     cc_build.compile("scilexer");
 }

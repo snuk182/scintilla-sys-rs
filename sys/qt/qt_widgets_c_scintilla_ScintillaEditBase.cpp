@@ -52,3 +52,18 @@ ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_Scinti
 	return static_cast<ScintillaEditBase*>(ptr);
 }
 
+void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_custom_slot(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr, SCNotification* arg0) {
+	ptr->custom_slot(arg0);
+}
+void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr) {
+	delete ptr;
+}
+qt_widgets_c_SlotWrapper_SCNotification_ptr* qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_new() {
+	return new qt_widgets_c_SlotWrapper_SCNotification_ptr();
+}
+void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(qt_widgets_c_SlotWrapper_SCNotification_ptr* this_ptr, void (*func)(void*, SCNotification*), void* data) {
+  this_ptr->set(func, data);
+}
+QObject* qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr) {
+	return static_cast<QObject*>(ptr);
+}

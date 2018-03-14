@@ -1,8 +1,11 @@
 use qt_core::cpp_utils::{CppBox, CppDeletable, StaticCast, DynamicCast, UnsafeStaticCast, Deleter};
+use qt_core::connection::{Signal, Receiver};
 use qt_core::object::Object;
 use qt_widgets::widget::Widget;
 use qt_widgets::abstract_scroll_area::AbstractScrollArea;
 use qt_widgets::frame::Frame;
+
+use super::SCNotification;
 
 use std::os::raw::{c_void, c_int, c_uint};
 use std::ops::{Deref, DerefMut};
@@ -27,6 +30,12 @@ extern "C" {
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(ptr: *mut ScintillaEditBase) -> *mut Object;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(ptr: *mut ScintillaEditBase) -> *mut Frame;
   pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(ptr: *mut ScintillaEditBase) -> *mut AbstractScrollArea;
+  
+  pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_custom_slot(ptr: *mut slots::RawSlotSCNotificationPtr, arg0: *const SCNotification);
+  pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_new() -> *mut slots::RawSlotSCNotificationPtr;
+  pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(ptr: *mut slots::RawSlotSCNotificationPtr, func: extern "C" fn(*mut c_void, *const SCNotification), data: *mut c_void);
+  pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(ptr: *mut slots::RawSlotSCNotificationPtr);
+  pub fn qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(ptr: *mut slots::RawSlotSCNotificationPtr) -> *mut Object;
 }
 
 /// C++ type: <span style='color: green;'>```QCustomEventFilter```</span>
@@ -51,106 +60,6 @@ impl ScintillaEditBase {
 impl CppDeletable for ScintillaEditBase {
   fn deleter() -> Deleter<Self> {
     qt_widgets_c_scintilla_ScintillaEditBase_delete
-  }
-}
-
-/*
-	void horizontalScrolled(int value);
-	void verticalScrolled(int value);
-	void horizontalRangeChanged(int max, int page);
-	void verticalRangeChanged(int max, int page);
-	void notifyChange();
-	void linesAdded(int linesAdded);
-
-	// Clients can use this hook to add additional
-	// formats (e.g. rich text) to the MIME data.
-	void aboutToCopy(QMimeData *data);
-
-	// Scintilla Notifications
-	void styleNeeded(int position);
-	void charAdded(int ch);
-	void savePointChanged(bool dirty);
-	void modifyAttemptReadOnly();
-	void key(int key);
-	void doubleClick(int position, int line);
-	void updateUi(int updated);
-	void modified(int type, int position, int length, int linesAdded,
-	              const QByteArray &text, int line, int foldNow, int foldPrev);
-	void macroRecord(int message, uptr_t wParam, sptr_t lParam);
-	void marginClicked(int position, int modifiers, int margin);
-	void textAreaClicked(int line, int modifiers);
-	void needShown(int position, int length);
-	void painted();
-	void userListSelection(); // Wants some args.
-	void uriDropped(const QString &uri);
-	void dwellStart(int x, int y);
-	void dwellEnd(int x, int y);
-	void zoom(int zoom);
-	void hotSpotClick(int position, int modifiers);
-	void hotSpotDoubleClick(int position, int modifiers);
-	void callTipClick();
-	void autoCompleteSelection(int position, const QString &text);
-	void autoCompleteCancelled();
-	void focusChanged(bool focused);
-
-	// Base notifications for compatibility with other Scintilla implementations
-	void notify(SCNotification *pscn);
-	void command(uptr_t wParam, sptr_t lParam);
-
-	// GUI event notifications needed under Qt
-	void buttonPressed(QMouseEvent *event);
-	void buttonReleased(QMouseEvent *event);
-	void keyPressed(QKeyEvent *event);
-	void resized();
-
-*/
-
-pub mod connection {
-  use super::{Object, StaticCast};
-  pub struct Signals<'a>(&'a super::ScintillaEditBase);
-  
-  pub struct HorizontalScrolled<'a>(&'a super::ScintillaEditBase);
-  impl<'a> ::qt_core::connection::Receiver for HorizontalScrolled<'a> {
-    type Arguments = (i32);
-    fn object(&self) -> &Object {
-      self.0.static_cast()
-    }
-    fn receiver_id() -> &'static [u8] {
-      b"2horizontalScrolled(i32)\0"
-    }
-  }
-  impl<'a> ::qt_core::connection::Signal for HorizontalScrolled<'a> {}
-  
-  impl<'a> Signals<'a> {
-    pub fn horizontal_scrolled(&self) -> HorizontalScrolled {
-      HorizontalScrolled(self.0)
-    }
-  }
-  
-  pub struct Slots<'a>(&'a super::ScintillaEditBase);
-  
-  pub struct EventCommand<'a>(&'a super::ScintillaEditBase);
-  impl<'a> ::qt_core::connection::Receiver for EventCommand<'a> {
-    type Arguments = (u32, i32);
-    fn object(&self) -> &Object {
-      self.0.static_cast()
-    }
-    fn receiver_id() -> &'static [u8] {
-      b"1event_command(uptr_t, sptr_t)\0"
-    }
-  }
-  impl<'a> Slots<'a> {
-    pub fn event_command(&self) -> EventCommand {
-      EventCommand(self.0)
-    }
-  }
-  impl super::ScintillaEditBase {
-    pub fn signals(&self) -> Signals {
-      Signals(self)
-    }
-    pub fn slots(&self) -> Slots {
-      Slots(self)
-    }
   }
 }
 
@@ -311,3 +220,235 @@ impl DerefMut for ScintillaEditBase {
     unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
   }
 }
+
+/*
+	void horizontalScrolled(int value);
+	void verticalScrolled(int value);
+	void horizontalRangeChanged(int max, int page);
+	void verticalRangeChanged(int max, int page);
+	void notifyChange();
+	void linesAdded(int linesAdded);
+
+	// Clients can use this hook to add additional
+	// formats (e.g. rich text) to the MIME data.
+	void aboutToCopy(QMimeData *data);
+
+	// Scintilla Notifications
+	void styleNeeded(int position);
+	void charAdded(int ch);
+	void savePointChanged(bool dirty);
+	void modifyAttemptReadOnly();
+	void key(int key);
+	void doubleClick(int position, int line);
+	void updateUi(int updated);
+	void modified(int type, int position, int length, int linesAdded,
+	              const QByteArray &text, int line, int foldNow, int foldPrev);
+	void macroRecord(int message, uptr_t wParam, sptr_t lParam);
+	void marginClicked(int position, int modifiers, int margin);
+	void textAreaClicked(int line, int modifiers);
+	void needShown(int position, int length);
+	void painted();
+	void userListSelection(); // Wants some args.
+	void uriDropped(const QString &uri);
+	void dwellStart(int x, int y);
+	void dwellEnd(int x, int y);
+	void zoom(int zoom);
+	void hotSpotClick(int position, int modifiers);
+	void hotSpotDoubleClick(int position, int modifiers);
+	void callTipClick();
+	void autoCompleteSelection(int position, const QString &text);
+	void autoCompleteCancelled();
+	void focusChanged(bool focused);
+
+	// Base notifications for compatibility with other Scintilla implementations
+	void notify(SCNotification *pscn);
+	void command(uptr_t wParam, sptr_t lParam);
+
+	// GUI event notifications needed under Qt
+	void buttonPressed(QMouseEvent *event);
+	void buttonReleased(QMouseEvent *event);
+	void keyPressed(QKeyEvent *event);
+	void resized();
+
+*/
+
+pub mod connection {
+  use super::*;
+  pub struct Signals<'a>(&'a ScintillaEditBase);
+  
+  pub struct HorizontalScrolled<'a>(&'a ScintillaEditBase);
+  impl<'a> Receiver for HorizontalScrolled<'a> {
+    type Arguments = (i32);
+    fn object(&self) -> &Object {
+      self.0.static_cast()
+    }
+    fn receiver_id() -> &'static [u8] {
+      b"2horizontalScrolled(i32)\0"
+    }
+  }
+  impl<'a> Signal for HorizontalScrolled<'a> {}
+  
+  pub struct Notify<'a>(&'a ScintillaEditBase);
+  impl<'a> Receiver for Notify<'a> {
+    type Arguments = (&'static SCNotification,);
+    fn object(&self) -> &Object {
+      self.0.static_cast()
+    }
+    fn receiver_id() -> &'static [u8] {
+      b"2notify(SCNotification*)\0"
+    }
+  }
+  impl<'a> Signal for Notify<'a> {}
+  
+  impl<'a> Signals<'a> {
+    pub fn horizontal_scrolled(&self) -> HorizontalScrolled {
+      HorizontalScrolled(self.0)
+    }
+    pub fn notify(&self) -> Notify {
+      Notify(self.0)
+    }
+  }
+  
+  pub struct Slots<'a>(&'a ScintillaEditBase);
+  
+  pub struct EventCommand<'a>(&'a ScintillaEditBase);
+  impl<'a> Receiver for EventCommand<'a> {
+    type Arguments = (u32, i32);
+    fn object(&self) -> &Object {
+      self.0.static_cast()
+    }
+    fn receiver_id() -> &'static [u8] {
+      b"1event_command(uptr_t, sptr_t)\0"
+    }
+  }
+  impl<'a> Slots<'a> {
+    pub fn event_command(&self) -> EventCommand {
+      EventCommand(self.0)
+    }
+  }
+  impl ScintillaEditBase {
+    pub fn signals(&self) -> Signals {
+      Signals(self)
+    }
+    pub fn slots(&self) -> Slots {
+      Slots(self)
+    }
+  }
+}
+
+
+pub mod slots {
+  use super::*;
+  
+  #[repr(C)]
+  pub struct RawSlotSCNotificationPtr(u8);
+  
+  impl StaticCast<Object> for RawSlotSCNotificationPtr {
+    fn static_cast_mut(&mut self) -> &mut Object {
+      let ffi_result = unsafe { qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(self as *mut RawSlotSCNotificationPtr) };
+      unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
+    }
+
+    fn static_cast(&self) -> &Object {
+      let ffi_result = unsafe { qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(self as *const RawSlotSCNotificationPtr as *mut RawSlotSCNotificationPtr) };
+      unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
+    }
+}
+
+  impl super::Receiver for RawSlotSCNotificationPtr {
+    type Arguments = (&'static SCNotification,);
+    fn object(&self) -> &Object {
+      StaticCast::static_cast(self)
+    }
+    fn receiver_id() -> &'static [u8] {
+      b"1custom_slot(SCNotification*)\0"
+    }
+  }
+  impl RawSlotSCNotificationPtr {
+    pub fn custom_slot(&mut self, arg0: &'static SCNotification) {
+      unsafe { qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_custom_slot(self as *mut RawSlotSCNotificationPtr, arg0) }
+    }
+
+    pub fn new() -> CppBox<RawSlotSCNotificationPtr> {
+      let ffi_result = unsafe { qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_new() };
+      unsafe { CppBox::new(ffi_result) }
+    }
+
+    pub unsafe fn set(&mut self,
+                      func: extern "C" fn(*mut c_void,
+                                          *const SCNotification),
+                      data: *mut c_void) {
+      qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(self as *mut RawSlotSCNotificationPtr, func, data)
+    }
+  }
+
+  impl CppDeletable for RawSlotSCNotificationPtr {
+    fn deleter() -> Deleter<Self> {
+      qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete
+    }
+  }
+}
+
+pub struct SlotSCNotificationPtr<'a> {
+  wrapper: CppBox<slots::RawSlotSCNotificationPtr>,
+  func: Option<Box<Box<FnMut(&'static SCNotification) + 'a>>>,
+}
+
+impl<'a> SlotSCNotificationPtr<'a> {
+  /// Constructs a new object.
+  pub fn new<F: FnMut(&'static SCNotification) + 'a>(f: F) -> SlotSCNotificationPtr<'a> {
+    let mut obj = SlotSCNotificationPtr::default();
+    obj.set(f);
+    obj
+  }
+
+  /// Sets `f` as the callback closure. If `set()` is called again, previous closure is dropped.
+  pub fn set<F: FnMut(&'static SCNotification) + 'a>(&mut self, f: F) {
+    self.clear();
+    let mut func_box: Box<Box<FnMut(&'static SCNotification) + 'a>> = Box::new(Box::new(f));
+    unsafe {
+      self.wrapper.set(slot_scnotification_ptr_callback,
+                       ::std::mem::transmute(func_box.as_mut()));
+    }
+    self.func = Some(func_box);
+  }
+
+  /// Drops the previously set closure, if any. After this, slot invokation will have no effect
+  /// until a new closure is set.
+  pub fn clear(&mut self) {
+    if self.func.is_some() {
+      unsafe {
+        self.wrapper.set(::std::mem::transmute(0usize), ::std::ptr::null_mut());
+      }
+      self.func = None;
+    }
+  }
+}
+
+impl<'a> Default for SlotSCNotificationPtr<'a> {
+  fn default() -> Self {
+    SlotSCNotificationPtr {
+      wrapper: slots::RawSlotSCNotificationPtr::new(),
+      func: None,
+    }
+  }
+}
+
+impl<'a> Receiver for SlotSCNotificationPtr<'a> {
+  type Arguments = (&'static SCNotification,);
+  fn object(&self) -> &Object {
+    Receiver::object(self.wrapper.as_ref())
+  }
+  fn receiver_id() -> &'static [u8] {
+    <slots::RawSlotSCNotificationPtr as Receiver>::receiver_id()
+  }
+}
+
+//impl ArgumentsCompatible<(&'static SCNotification,)> for (&'static SCNotification,) {}
+
+extern "C" fn slot_scnotification_ptr_callback(data: *mut c_void,
+                                                       arg0: *const SCNotification) {
+  let func: &mut Box<FnMut(&'static SCNotification)> = unsafe { ::std::mem::transmute(data) };
+  func(unsafe { &*arg0 });
+}
+
