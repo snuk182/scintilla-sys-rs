@@ -72,7 +72,7 @@ pub fn main() {
         .include("../lexlib")
         .include("../src")
         //.cpp_link_stdlib("stdc++")
-        .opt_level(0)
+        .opt_level(3)
         .cpp(true)
         .define("STATIC_BUILD", None)
         //.debug(true)

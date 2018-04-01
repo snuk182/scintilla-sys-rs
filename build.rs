@@ -17,9 +17,9 @@ mod build_qt;
 #[cfg(feature = "qt5")]
 use build_qt as inner;
 
-#[cfg(feature = "gtk")]
+#[cfg(feature = "gtk3")]
 mod build_gtk;
-#[cfg(feature = "gtk")]
+#[cfg(feature = "gtk3")]
 use build_gtk as inner;
 
 #[cfg(feature = "curses")]
@@ -29,9 +29,9 @@ use build_curses as inner;
 
 #[allow(unreachable_code)]
 fn main() {
-    #[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk", feature = "curses")))]
+    #[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk3", feature = "curses")))]
     {
-        panic!("You have to pick a backend feature explicitly. For now available are \"win32\", \"cocoa\" and \"qt5\".");
+        panic!("You have to pick a backend feature explicitly. For now available are \"win32\", \"cocoa\", \"gtk3\" and \"qt5\".");
     }
 
     if !Path::new("sys/scintilla/.git").exists() {
@@ -47,7 +47,7 @@ fn main() {
     //println!("cargo:rustc-link-lib=scilexer");
 }
 
-#[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk", feature = "curses")))]
+#[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk3", feature = "curses")))]
 mod inner {
     pub fn main() {}
 }
