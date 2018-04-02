@@ -183,6 +183,17 @@ pub fn main() {
 		cc_build.include(lib.to_str().unwrap());
 	}
 	
+    let mut cc_build_c = cc::Build::new();
+    
+    for lib in glib_probe.include_paths.as_slice() {
+		cc_build_c.include(lib.to_str().unwrap());
+	}
+    cc_build_c
+        .include(".")
+        .file("scintilla-marshal.c");
+        
+    cc_build_c.compile("scintilla_marshal");
+    
     cc_build
         .include(".")
         .define("GTK", None)
@@ -191,7 +202,6 @@ pub fn main() {
         //.define("NOTHREADS", None)
         
         .flag("-std=c++14")
-        .file("scintilla-marshal.c")
         .file("PlatGTK.cxx")
 	    .file("ScintillaGTKAccessible.cxx")
 	    .file("ScintillaGTK.cxx");

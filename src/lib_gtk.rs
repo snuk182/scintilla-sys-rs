@@ -112,15 +112,15 @@ impl<O: IsA<Scintilla> + IsA<Object> + ObjectExt> ScintillaExt for O {
 	fn connect_notify<F: Fn(&Self, i32, Ptr, Ptr) + 'static>(&self, f: F) -> SignalHandlerId {
 		unsafe {
             let f: Box<Box<Fn(&Self, i32, Ptr, Ptr) + 'static>> = Box::new(Box::new(f));
-            connect(self.to_glib_none().0, SIGNAL_NOTIFY, mem::transmute(clicked_trampoline::<Self> as usize), Box::into_raw(f) as *mut _)
+            connect(self.to_glib_none().0, SIGNAL_NOTIFY, mem::transmute(notify_trampoline::<Self> as usize), Box::into_raw(f) as *mut _)
         }
 	}
     fn emit_notify(&self, msg: i32, notification: Ptr, data: Ptr) {
 	    let _ = self.emit(SIGNAL_NOTIFY, &[&msg, &notification, &data]).unwrap();
     }
 }
-unsafe extern "C" fn clicked_trampoline<P>(this: *mut ffi::GtkScintilla, f: glib_ffi::gpointer) where P: IsA<Scintilla> {
+unsafe extern "C" fn notify_trampoline<P>(this: *mut ffi::GtkScintilla, msg: c_int, notification: glib_ffi::gpointer, data: glib_ffi::gpointer) where P: IsA<Scintilla> {
     callback_guard!();
-    let f: &&(Fn(&P) + 'static) = mem::transmute(f);
-    f(&Scintilla::from_glib_borrow(this).downcast_unchecked())
+    let f: &&(Fn(&P, i32, Ptr, Ptr) + 'static) = mem::transmute(data);
+    f(&Scintilla::from_glib_borrow(this).downcast_unchecked(), msg, notification as Ptr, data as Ptr)
 }
