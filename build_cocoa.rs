@@ -23,9 +23,10 @@ pub fn main() {
     let mut framework_dir = env::current_dir().unwrap();
     framework_dir.push("build/Release");    
     println!("cargo:rustc-link-search=framework={}", framework_dir.display());   
+    framework_dir.push("Scintilla.framework");
     
     let mut out_dir = path::PathBuf::from(env::var("OUT_DIR").unwrap());
-    out_dir.push("Frameworks");
+    out_dir.push("../../../../Frameworks");
     
     fs_extra::dir::create_all(out_dir.clone(), true).unwrap();
     
