@@ -51,10 +51,8 @@ impl ScintillaEditBase {
     let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_new(parent);
     CppBox::new(ffi_result)
   }
-  pub fn send(&mut self, message: u32, wparam: u32, lparam: i32) -> *mut c_void {
-    unsafe {
-      qt_widgets_c_scintilla_ScintillaEditBase_send(self as *mut ScintillaEditBase, message, wparam, lparam)
-    }
+  pub unsafe fn send(&self, message: u32, wparam: u32, lparam: i32) -> *mut c_void {
+    qt_widgets_c_scintilla_ScintillaEditBase_send(self as *const _ as *mut ScintillaEditBase, message, wparam, lparam)
   }
 }
 impl CppDeletable for ScintillaEditBase {
