@@ -10,10 +10,7 @@ pub fn main() {
         panic!("The feature `win32` is available on the Windows platforms only.");
     }
 
-    Command::new("git")
-        .args(&["checkout", "rel-4-0-2"])
-        .status()
-        .unwrap();
+    Command::new("git").args(&["checkout", "rel-4-0-2"]).status().unwrap();
 
     let mut cc_build = cc::Build::new();
     cc_build
@@ -27,7 +24,6 @@ pub fn main() {
         //.debug(true)
         //.flag("-fkeep-inline-functions")
         .warnings(false)
-        
         .file("../src/AutoComplete.cxx")
         .file("../src/CallTip.cxx")
         .file("../src/CaseConvert.cxx")
@@ -57,7 +53,6 @@ pub fn main() {
         .file("../src/UniConversion.cxx")
         .file("../src/ViewStyle.cxx")
         .file("../src/XPM.cxx")
-        
         .file("../lexlib/Accessor.cxx")
         .file("../lexlib/CharacterCategory.cxx")
         .file("../lexlib/CharacterSet.cxx")
@@ -69,7 +64,6 @@ pub fn main() {
         .file("../lexlib/PropSetSimple.cxx")
         .file("../lexlib/StyleContext.cxx")
         .file("../lexlib/WordList.cxx")
-
         .file("../lexers/LexA68k.cxx")
         .file("../lexers/LexAbaqus.cxx")
         .file("../lexers/LexAda.cxx")
@@ -176,16 +170,13 @@ pub fn main() {
         .file("../lexers/LexVisualProlog.cxx")
         .file("../lexers/LexYAML.cxx");
 
-    cc_build
-        .file("PlatWin.cxx")
-        .file("HanjaDic.cxx")
-        .file("ScintillaWin.cxx");
-        
+    cc_build.file("PlatWin.cxx").file("HanjaDic.cxx").file("ScintillaWin.cxx");
+
     env::set_current_dir("win32").expect("Could not change dir");
     cc_build.compile("scilexer");
 
     embed_resource::compile("ScintRes.rc");
-    
+
     println!("cargo:rustc-link-lib=dylib=imm32");
     println!("cargo:rustc-link-lib=dylib=uuid");
 }

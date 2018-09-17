@@ -8,10 +8,7 @@ use std::path::Path;
 use std::process::Command;
 
 pub fn main() {
-    Command::new("git")
-        .args(&["checkout", "rel-3-6-3"])
-        .status()
-        .unwrap();
+    Command::new("git").args(&["checkout", "rel-3-6-3"]).status().unwrap();
 
     build_pdcurses();
     build_scinterm();
@@ -21,15 +18,11 @@ fn build_pdcurses() {
     env::set_current_dir("../..").expect("Could not change dir");
 
     if !Path::new("sys/pdcurses/.git").exists() {
-        Command::new("git")
-            .args(&["submodule", "update", "--init", "sys/pdcurses"])
-            .status()
-            .unwrap();
+        Command::new("git").args(&["submodule", "update", "--init", "sys/pdcurses"]).status().unwrap();
     }
     env::set_current_dir("sys/pdcurses").expect("Could not change dir");
 
     let mut cc_build = cc::Build::new();
-
     cc_build
         .include(".")
         .flag("-Wno-unused-parameter")
@@ -107,34 +100,29 @@ fn build_pdcurses() {
 
     cc_build.compile("pdcurses");
 
-    #[cfg(target_os = "windows")] embed_resource::compile("wincon/pdcurses.rc");
+    #[cfg(target_os = "windows")]
+    embed_resource::compile("wincon/pdcurses.rc");
 }
 
 fn build_scinterm() {
     env::set_current_dir("../..").expect("Could not change dir");
 
     if !Path::new("sys/scinterm/.git").exists() {
-        Command::new("git")
-            .args(&["submodule", "update", "--init", "sys/scinterm"])
-            .status()
-            .unwrap();
+        Command::new("git").args(&["submodule", "update", "--init", "sys/scinterm"]).status().unwrap();
     }
     env::set_current_dir("sys/scinterm").expect("Could not change dir");
 
     let mut cc_build = cc::Build::new();
 
     cc_build
-	    .include("../scintilla/include")
+        .include("../scintilla/include")
         .include("../scintilla/src")
         .include("../scintilla/lexlib")
         .cpp_link_stdlib("stdc++")
         .define("STATIC_BUILD", None)
         .opt_level(3)
         .cpp(true)
-        //.debug(true)
-        //.flag("-fkeep-inline-functions")
         .warnings(false)
-        
         .file("../scintilla/src/AutoComplete.cxx")
         .file("../scintilla/src/CallTip.cxx")
         .file("../scintilla/src/CaseConvert.cxx")
@@ -163,7 +151,6 @@ fn build_scinterm() {
         .file("../scintilla/src/UniConversion.cxx")
         .file("../scintilla/src/ViewStyle.cxx")
         .file("../scintilla/src/XPM.cxx")
-        
         .file("../scintilla/lexlib/Accessor.cxx")
         .file("../scintilla/lexlib/CharacterCategory.cxx")
         .file("../scintilla/lexlib/CharacterSet.cxx")
@@ -174,7 +161,6 @@ fn build_scinterm() {
         .file("../scintilla/lexlib/PropSetSimple.cxx")
         .file("../scintilla/lexlib/StyleContext.cxx")
         .file("../scintilla/lexlib/WordList.cxx")
-
         .file("../scintilla/lexers/LexA68k.cxx")
         .file("../scintilla/lexers/LexAbaqus.cxx")
         .file("../scintilla/lexers/LexAda.cxx")
@@ -278,15 +264,7 @@ fn build_scinterm() {
         .file("../scintilla/lexers/LexVisualProlog.cxx")
         .file("../scintilla/lexers/LexYAML.cxx");
 
-    cc_build
-	    //.include(".")
-	    .include("../pdcurses")
-	    .define("CURSES", None)
-	    .define("SCI_LEXER", None)
-	    //.flag("-H")
-	    .flag("-pedantic")
-	    .flag("-std=c++11")
-	    .file("ScintillaTerm.cxx");
+    cc_build.include("../pdcurses").define("CURSES", None).define("SCI_LEXER", None).flag("-pedantic").flag("-std=c++11").file("ScintillaTerm.cxx");
 
     cc_build.compile("scinterm");
 }

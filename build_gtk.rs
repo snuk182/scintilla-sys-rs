@@ -5,26 +5,19 @@ use std::env;
 use std::process::Command;
 
 pub fn main() {
-    Command::new("git")
-        .args(&["checkout", "rel-4-0-2"])
-        .status()
-        .unwrap();
-        
-    env::set_current_dir("gtk").expect("Could not change dir to 'gtk'");    
-    
+    Command::new("git").args(&["checkout", "rel-4-0-2"]).status().unwrap();
+
+    env::set_current_dir("gtk").expect("Could not change dir to 'gtk'");
+
     let mut cc_build = cc::Build::new();
     cc_build
         .include("../include")
         .include("../lexlib")
         .include("../src")
-        //.cpp_link_stdlib("stdc++")
         .opt_level(3)
         .cpp(true)
         .define("STATIC_BUILD", None)
-        //.debug(true)
         .flag("-fkeep-inline-functions")
-        //.warnings(false)
-        
         .file("../src/AutoComplete.cxx")
         .file("../src/CallTip.cxx")
         .file("../src/CaseConvert.cxx")
@@ -54,7 +47,6 @@ pub fn main() {
         .file("../src/UniConversion.cxx")
         .file("../src/ViewStyle.cxx")
         .file("../src/XPM.cxx")
-        
         .file("../lexlib/Accessor.cxx")
         .file("../lexlib/CharacterCategory.cxx")
         .file("../lexlib/CharacterSet.cxx")
@@ -66,7 +58,6 @@ pub fn main() {
         .file("../lexlib/PropSetSimple.cxx")
         .file("../lexlib/StyleContext.cxx")
         .file("../lexlib/WordList.cxx")
-
         .file("../lexers/LexA68k.cxx")
         .file("../lexers/LexAbaqus.cxx")
         .file("../lexers/LexAda.cxx")
@@ -174,40 +165,37 @@ pub fn main() {
         .file("../lexers/LexYAML.cxx");
 
     let gtk_probe = pkg_config::Config::new().atleast_version("3.0").probe("gtk+-3.0").unwrap();
-	let glib_probe = pkg_config::Config::new().atleast_version("2.0").probe("glib-2.0").unwrap();
-	
-	for lib in gtk_probe.include_paths.as_slice() {
-		cc_build.include(lib.to_str().unwrap());
-	}
-	for lib in glib_probe.include_paths.as_slice() {
-		cc_build.include(lib.to_str().unwrap());
-	}
-	
-    let mut cc_build_c = cc::Build::new();
-    
+    let glib_probe = pkg_config::Config::new().atleast_version("2.0").probe("glib-2.0").unwrap();
+
+    for lib in gtk_probe.include_paths.as_slice() {
+        cc_build.include(lib.to_str().unwrap());
+    }
     for lib in glib_probe.include_paths.as_slice() {
-		cc_build_c.include(lib.to_str().unwrap());
-	}
-    cc_build_c
-        .include(".")
-        .file("scintilla-marshal.c");
-        
+        cc_build.include(lib.to_str().unwrap());
+    }
+
+    let mut cc_build_c = cc::Build::new();
+
+    for lib in glib_probe.include_paths.as_slice() {
+        cc_build_c.include(lib.to_str().unwrap());
+    }
+    cc_build_c.include(".").file("scintilla-marshal.c");
+
     cc_build_c.compile("scintilla_marshal");
-    
+
     cc_build
         .include(".")
         .define("GTK", None)
         .define("SCI_LEXER", None)
         //.define("CHECK_DEPRECATED", None)
         //.define("NOTHREADS", None)
-        
         .flag("-std=c++14")
         .file("PlatGTK.cxx")
-	    .file("ScintillaGTKAccessible.cxx")
-	    .file("ScintillaGTK.cxx");
-        
+        .file("ScintillaGTKAccessible.cxx")
+        .file("ScintillaGTK.cxx");
+
     cc_build.compile("scilexer");
-    
+
     println!("cargo:rustc-link-lib=dylib=gmodule-2.0");
     println!("cargo:rustc-link-lib=dylib=wayland-client");
 }

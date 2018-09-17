@@ -35,16 +35,11 @@ fn main() {
     }
 
     if !Path::new("sys/scintilla/.git").exists() {
-        Command::new("git")
-            .args(&["submodule", "update", "--init", "sys/scintilla"])
-            .status()
-            .unwrap();
+        Command::new("git").args(&["submodule", "update", "--init", "sys/scintilla"]).status().unwrap();
     }
     env::set_current_dir("sys/scintilla").expect("Could not change dir");
 
     inner::main();
-
-    //println!("cargo:rustc-link-lib=scilexer");
 }
 
 #[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk3", feature = "curses")))]

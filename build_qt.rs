@@ -4,81 +4,75 @@ use std::env;
 use std::process::Command;
 
 pub fn main() {
-    Command::new("git")
-        .args(&["checkout", "rel-4-0-2"])
-        .status()
-        .unwrap();
-        
-    let mut qt_location = String::from_utf8(Command::new("qmake")
-	        .args(&["-query", "QT_INSTALL_HEADERS"])
-	        .output()
-	        .unwrap().stdout).unwrap();   
-    let len = qt_location.len(); 
-    qt_location.split_off(len-1);
-    
-    env::set_current_dir("qt").expect("Could not change dir to 'qt'");    
-    
+    Command::new("git").args(&["checkout", "rel-4-0-2"]).status().unwrap();
+
+    let mut qt_location = String::from_utf8(Command::new("qmake").args(&["-query", "QT_INSTALL_HEADERS"]).output().unwrap().stdout).unwrap();
+    let len = qt_location.len();
+    qt_location.split_off(len - 1);
+
+    env::set_current_dir("qt").expect("Could not change dir to 'qt'");
+
     Command::new("moc")
         .args(&[
-	        	"-I../include",
-		        "-I../lexlib",
-		        "-I../src",
-	        	"-IScintillaEditBase",
-		        "-I../../qt",
-		        &format!("-I{}", qt_location),
-		        &format!("-I{}/QtCore", qt_location),
-		        &format!("-I{}/QtGui", qt_location),
-		        &format!("-I{}/QtWidgets", qt_location),
-		        "ScintillaEditBase/ScintillaQt.h", "-o", "ScintillaEditBase/moc_ScintillaQt.cpp"
-        	])
-        .status()
+            "-I../include",
+            "-I../lexlib",
+            "-I../src",
+            "-IScintillaEditBase",
+            "-I../../qt",
+            &format!("-I{}", qt_location),
+            &format!("-I{}/QtCore", qt_location),
+            &format!("-I{}/QtGui", qt_location),
+            &format!("-I{}/QtWidgets", qt_location),
+            "ScintillaEditBase/ScintillaQt.h",
+            "-o",
+            "ScintillaEditBase/moc_ScintillaQt.cpp",
+        ]).status()
         .unwrap();
-        
+
     Command::new("moc")
         .args(&[
-	        	"-I../include",
-		        "-I../lexlib",
-		        "-I../src",
-	        	"-IScintillaEditBase",
-		        "-I../../qt",
-		        &format!("-I{}", qt_location),
-		        &format!("-I{}/QtCore", qt_location),
-		        &format!("-I{}/QtGui", qt_location),
-		        &format!("-I{}/QtWidgets", qt_location),
-		        "ScintillaEditBase/ScintillaEditBase.h", "-o", "ScintillaEditBase/moc_ScintillaEditBase.cpp"
-        	])
-        .status()
+            "-I../include",
+            "-I../lexlib",
+            "-I../src",
+            "-IScintillaEditBase",
+            "-I../../qt",
+            &format!("-I{}", qt_location),
+            &format!("-I{}/QtCore", qt_location),
+            &format!("-I{}/QtGui", qt_location),
+            &format!("-I{}/QtWidgets", qt_location),
+            "ScintillaEditBase/ScintillaEditBase.h",
+            "-o",
+            "ScintillaEditBase/moc_ScintillaEditBase.cpp",
+        ]).status()
         .unwrap();
-        
+
     Command::new("moc")
         .args(&[
-	        	"-I../include",
-		        "-I../lexlib",
-		        "-I../src",
-	        	"-IScintillaEditBase",
-		        "-I../../qt",
-		        &format!("-I{}", qt_location),
-		        &format!("-I{}/QtCore", qt_location),
-		        &format!("-I{}/QtGui", qt_location),
-		        &format!("-I{}/QtWidgets", qt_location),
-		        "../../qt/qt_widgets_c_scintilla_ScintillaEditBase.h", "-o", "../../qt/moc_qt_widgets_c_scintilla_ScintillaEditBase.cpp"
-        	])
-        .status()
-        .unwrap();    
-        
+            "-I../include",
+            "-I../lexlib",
+            "-I../src",
+            "-IScintillaEditBase",
+            "-I../../qt",
+            &format!("-I{}", qt_location),
+            &format!("-I{}/QtCore", qt_location),
+            &format!("-I{}/QtGui", qt_location),
+            &format!("-I{}/QtWidgets", qt_location),
+            "../../qt/qt_widgets_c_scintilla_ScintillaEditBase.h",
+            "-o",
+            "../../qt/moc_qt_widgets_c_scintilla_ScintillaEditBase.cpp",
+        ]).status()
+        .unwrap();
+
     let mut cc_build = cc::Build::new();
     cc_build
         .include("../include")
         .include("../lexlib")
         .include("../src")
-        //.cpp_link_stdlib("stdc++")
         .opt_level(3)
         .cpp(true)
         .define("STATIC_BUILD", None)
         //.debug(true)
         .flag("-fkeep-inline-functions")
-        //.warnings(false)
-        
         .file("../src/AutoComplete.cxx")
         .file("../src/CallTip.cxx")
         .file("../src/CaseConvert.cxx")
@@ -108,7 +102,6 @@ pub fn main() {
         .file("../src/UniConversion.cxx")
         .file("../src/ViewStyle.cxx")
         .file("../src/XPM.cxx")
-        
         .file("../lexlib/Accessor.cxx")
         .file("../lexlib/CharacterCategory.cxx")
         .file("../lexlib/CharacterSet.cxx")
@@ -120,7 +113,6 @@ pub fn main() {
         .file("../lexlib/PropSetSimple.cxx")
         .file("../lexlib/StyleContext.cxx")
         .file("../lexlib/WordList.cxx")
-
         .file("../lexers/LexA68k.cxx")
         .file("../lexers/LexAbaqus.cxx")
         .file("../lexers/LexAda.cxx")
@@ -230,28 +222,32 @@ pub fn main() {
     cc_build
         .include("ScintillaEditBase")
         .include("../../qt")
-        .flag("-isystem").flag(&format!("{}", qt_location))
-        .flag("-isystem").flag(&format!("{}/QtCore", qt_location))
-        .flag("-isystem").flag(&format!("{}/QtGui", qt_location))
-        .flag("-isystem").flag(&format!("{}/QtWidgets", qt_location))
-        .flag("-isystem").flag(&format!("{}/mkspecs/linux-g++-64", qt_location))
-        .define("SCINTILLA_QT",Some("1"))
-        .define("MAKING_LIBRARY",Some("1"))
-        .define("SCI_LEXER",Some("1"))
-        .define("_CRT_SECURE_NO_DEPRECATE",Some("1"))
+        .flag("-isystem")
+        .flag(&format!("{}", qt_location))
+        .flag("-isystem")
+        .flag(&format!("{}/QtCore", qt_location))
+        .flag("-isystem")
+        .flag(&format!("{}/QtGui", qt_location))
+        .flag("-isystem")
+        .flag(&format!("{}/QtWidgets", qt_location))
+        .flag("-isystem")
+        .flag(&format!("{}/mkspecs/linux-g++-64", qt_location))
+        .define("SCINTILLA_QT", Some("1"))
+        .define("MAKING_LIBRARY", Some("1"))
+        .define("SCI_LEXER", Some("1"))
+        .define("_CRT_SECURE_NO_DEPRECATE", Some("1"))
         //.define("QT_NO_DEBUG", None)
         .define("QT_WIDGETS_LIB", None)
         .define("QT_GUI_LIB", None)
         .define("QT_CORE_LIB", None)
-        
         .flag("-std=c++14")
         .file("ScintillaEditBase/moc_ScintillaQt.cpp")
-	    .file("ScintillaEditBase/moc_ScintillaEditBase.cpp")
-	    .file("ScintillaEditBase/ScintillaEditBase.cpp")
+        .file("ScintillaEditBase/moc_ScintillaEditBase.cpp")
+        .file("ScintillaEditBase/ScintillaEditBase.cpp")
         .file("ScintillaEditBase/ScintillaQt.cpp")
         .file("ScintillaEditBase/PlatQt.cpp")
         .file("../../qt/qt_widgets_c_scintilla_ScintillaEditBase.cpp")
         .file("../../qt/moc_qt_widgets_c_scintilla_ScintillaEditBase.cpp");
-        
+
     cc_build.compile("scilexer");
 }
