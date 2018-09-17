@@ -31,7 +31,8 @@ use build_curses as inner;
 fn main() {
     #[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk3", feature = "curses")))]
     {
-        panic!("You have to pick a backend feature explicitly. For now available are \"win32\", \"cocoa\", \"gtk3\" and \"qt5\".");
+        println!("You have to pick a backend feature explicitly. For now available are \"win32\", \"cocoa\", \"gtk3\" and \"qt5\".");
+        return;
     }
 
     if !Path::new("sys/scintilla/.git").exists() {
