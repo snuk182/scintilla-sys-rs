@@ -29,14 +29,8 @@ use build_curses as inner;
 
 #[allow(unreachable_code)]
 fn main() {
-    #[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk3", feature = "curses")))]
-    {
-        println!("You have to pick a backend feature explicitly. For now available are \"win32\", \"cocoa\", \"gtk3\" and \"qt5\".");
-        return;
-    }
-
     if !Path::new("sys/scintilla/.git").exists() {
-        Command::new("git").args(&["submodule", "update", "--init", "sys/scintilla"]).status().unwrap();
+        Command::new("git").args(&["submodule", "update", "--init", "--recursive"]).status().unwrap();
     }
     env::set_current_dir("sys/scintilla").expect("Could not change dir");
 
@@ -45,5 +39,7 @@ fn main() {
 
 #[cfg(not(any(feature = "win32", feature = "cocoa", feature = "qt5", feature = "gtk3", feature = "curses")))]
 mod inner {
-    pub fn main() {}
+    pub fn main() {
+	     println!("You have to pick a backend feature explicitly. For now available are \"win32\", \"cocoa\", \"gtk3\" and \"qt5\".");
+    }
 }
