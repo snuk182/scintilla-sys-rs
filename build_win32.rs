@@ -23,6 +23,7 @@ pub fn main() {
         .cpp(true)
         //.debug(true)
         //.flag("-fkeep-inline-functions")
+        .flag("-std=c++17")
         .warnings(false)
         .file("../src/AutoComplete.cxx")
         .file("../src/CallTip.cxx")
@@ -177,6 +178,5 @@ pub fn main() {
 
     embed_resource::compile("ScintRes.rc");
 
-    println!("cargo:rustc-link-lib=dylib=imm32");
     println!("cargo:rustc-link-lib=dylib=uuid");
 }

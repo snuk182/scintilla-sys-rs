@@ -189,7 +189,7 @@ pub fn main() {
         .define("SCI_LEXER", None)
         //.define("CHECK_DEPRECATED", None)
         //.define("NOTHREADS", None)
-        .flag("-std=c++14")
+        .flag("-std=c++17")
         .file("PlatGTK.cxx")
         .file("ScintillaGTKAccessible.cxx")
         .file("ScintillaGTK.cxx");

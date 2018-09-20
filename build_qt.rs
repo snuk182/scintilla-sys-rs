@@ -240,7 +240,7 @@ pub fn main() {
         .define("QT_WIDGETS_LIB", None)
         .define("QT_GUI_LIB", None)
         .define("QT_CORE_LIB", None)
-        .flag("-std=c++14")
+        .flag("-std=c++17")
         .file("ScintillaEditBase/moc_ScintillaQt.cpp")
         .file("ScintillaEditBase/moc_ScintillaEditBase.cpp")
         .file("ScintillaEditBase/ScintillaEditBase.cpp")

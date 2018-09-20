@@ -26,6 +26,7 @@ fn build_pdcurses() {
     cc_build
         .include(".")
         .flag("-Wno-unused-parameter")
+        .flag("-std=c++17")
         .define("PDC_WIDE", None)
         .file("pdcurses/addch.c")
         .file("pdcurses/addchstr.c")
