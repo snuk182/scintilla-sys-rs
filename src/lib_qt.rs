@@ -8,13 +8,13 @@ use qt_widgets::widget::Widget;
 use super::SCNotification;
 
 use std::ops::{Deref, DerefMut};
-use std::os::raw::{c_int, c_uint, c_void};
+use std::os::raw::{c_uint, c_void, c_long, c_ulong};
 
 extern "C" {
     pub fn qt_widgets_c_scintilla_ScintillaEditBase_new_no_args() -> *mut ScintillaEditBase;
     pub fn qt_widgets_c_scintilla_ScintillaEditBase_new(parent: *mut Widget) -> *mut ScintillaEditBase;
     pub fn qt_widgets_c_scintilla_ScintillaEditBase_delete(this_ptr: *mut ScintillaEditBase);
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_send(this_ptr: *mut ScintillaEditBase, message: c_uint, wparam: c_uint, lparam: c_int) -> *mut c_void;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_send(this_ptr: *mut ScintillaEditBase, message: c_uint, wparam: c_ulong, lparam: c_long) -> *mut c_void;
 
     pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr: *mut AbstractScrollArea) -> *mut ScintillaEditBase;
     pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut Frame) -> *mut ScintillaEditBase;
@@ -51,8 +51,8 @@ impl ScintillaEditBase {
         let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_new(parent);
         CppBox::new(ffi_result)
     }
-    pub unsafe fn send(&self, message: u32, wparam: u32, lparam: i32) -> *mut c_void {
-        qt_widgets_c_scintilla_ScintillaEditBase_send(self as *const _ as *mut ScintillaEditBase, message, wparam, lparam)
+    pub unsafe fn send(&self, message: u32, wparam: usize, lparam: isize) -> *mut c_void {
+        qt_widgets_c_scintilla_ScintillaEditBase_send(self as *const _ as *mut ScintillaEditBase, message, wparam as c_ulong, lparam as c_long)
     }
 }
 impl CppDeletable for ScintillaEditBase {
