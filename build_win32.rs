@@ -179,5 +179,7 @@ pub fn main() {
     embed_resource::compile("ScintRes.rc");
 
 	println!("cargo:rustc-link-lib=dylib=imm32");
+	println!("cargo:rustc-link-lib=dylib=ole32");
+	println!("cargo:rustc-link-lib=dylib=oleaut32");
     println!("cargo:rustc-link-lib=dylib=uuid");
 }
