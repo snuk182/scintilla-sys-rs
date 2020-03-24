@@ -52,18 +52,36 @@ ScintillaEditBase* qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_Scinti
 	return static_cast<ScintillaEditBase*>(ptr);
 }
 
-void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_custom_slot(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr, SCNotification* arg0) {
-	ptr->custom_slot(arg0);
+QMetaObject const * qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_staticMetaObject() {
+  return &qt_widgets_c_SlotWrapper_SCNotification_ptr::staticMetaObject;
 }
-void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr) {
-	delete ptr;
+QMetaObject const * qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_metaObject(qt_widgets_c_SlotWrapper_SCNotification_ptr const * this_ptr) {
+  return this_ptr->metaObject();
 }
-qt_widgets_c_SlotWrapper_SCNotification_ptr* qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_new() {
-	return new qt_widgets_c_SlotWrapper_SCNotification_ptr();
+void * qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_metacast(qt_widgets_c_SlotWrapper_SCNotification_ptr * this_ptr, char const * arg1) {
+  return this_ptr->qt_metacast(arg1);
 }
-void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(qt_widgets_c_SlotWrapper_SCNotification_ptr* this_ptr, void (*func)(void*, SCNotification*), void* data) {
-  this_ptr->set(func, data);
+int qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_metacall(qt_widgets_c_SlotWrapper_SCNotification_ptr * this_ptr, QMetaObject::Call arg1, int arg2, void * * arg3) {
+  return this_ptr->qt_metacall(arg1, arg2, arg3);
 }
-QObject* qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr) {
-	return static_cast<QObject*>(ptr);
+QString * qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_tr(char const * s, char const * c, int n) {
+  return new QString(qt_widgets_c_SlotWrapper_SCNotification_ptr::tr(s, c, n));
+}
+QString * qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_trUtf8(char const * s, char const * c, int n) {
+  return new QString(qt_widgets_c_SlotWrapper_SCNotification_ptr::trUtf8(s, c, n));
+}
+qt_widgets_c_SlotWrapper_SCNotification_ptr * qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr(QObject * parent, void (*callback)(void *, SCNotification *), void (*deleter)(void *), void * data) {
+  return new qt_widgets_c_SlotWrapper_SCNotification_ptr(parent, callback, deleter, data);
+}
+void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(qt_widgets_c_SlotWrapper_SCNotification_ptr * this_ptr, void (*callback)(void *, SCNotification *), void (*deleter)(void *), void * data) {
+  this_ptr->set(callback, deleter, data);
+}
+void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_slot_(qt_widgets_c_SlotWrapper_SCNotification_ptr * this_ptr, SCNotification * arg0) {
+  this_ptr->slot_(arg0);
+}
+void qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(qt_widgets_c_SlotWrapper_SCNotification_ptr * thisptr) {
+	delete thisptr;
+}
+QObject* qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_static_cast_QObject_ptr(qt_widgets_c_SlotWrapper_SCNotification_ptr* ptr) {
+  return static_cast<QObject*>(ptr);
 }

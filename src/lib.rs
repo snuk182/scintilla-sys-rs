@@ -2,8 +2,6 @@ mod gen;
 pub use gen::*;
 
 #[cfg(feature = "qt5")]
-extern crate cpp_utils;
-#[cfg(feature = "qt5")]
 extern crate qt_core;
 #[cfg(feature = "qt5")]
 extern crate qt_widgets;

@@ -1,216 +1,211 @@
-use qt_core::connection::{Receiver, Signal};
-use qt_core::cpp_utils::{CppBox, CppDeletable, Deleter, DynamicCast, StaticCast, UnsafeStaticCast};
-use qt_core::object::Object;
-use qt_widgets::abstract_scroll_area::AbstractScrollArea;
-use qt_widgets::frame::Frame;
-use qt_widgets::widget::Widget;
+#[allow(unused_parens)]
+
+use qt_core::{Receiver, Signal, AsReceiver};
+use qt_core::cpp_core::{CppDeletable, DynamicCast, StaticUpcast, StaticDowncast, CastInto, CppBox, Ref, Ptr};
+use qt_core::q_meta_object;
+use qt_core::{QString, QMetaObject, QObject, QBox};
+use qt_widgets::{QAbstractScrollArea, QFrame, QWidget};
 
 use super::SCNotification;
 
-use std::ops::{Deref, DerefMut};
 use std::os::raw::{c_uint, c_void, c_long, c_ulong};
 
 extern "C" {
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_new_no_args() -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_new(parent: *mut Widget) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_delete(this_ptr: *mut ScintillaEditBase);
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_send(this_ptr: *mut ScintillaEditBase, message: c_uint, wparam: c_ulong, lparam: c_long) -> *mut c_void;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_new_no_args() -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_new(parent: *mut QWidget) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_delete(this_ptr: *mut QScintillaEditBase);
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_send(this_ptr: *mut QScintillaEditBase, message: c_uint, wparam: c_ulong, lparam: c_long) -> *mut c_void;
 
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr: *mut AbstractScrollArea) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut Frame) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QWidget(ptr: *mut Widget) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QObject(ptr: *mut Object) -> *mut ScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr: *mut QAbstractScrollArea) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut QFrame) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QWidget(ptr: *mut QWidget) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QObject(ptr: *mut QObject) -> *mut QScintillaEditBase;
 
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(ptr: *mut Object) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut Frame) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr: *mut AbstractScrollArea) -> *mut ScintillaEditBase;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(ptr: *mut Widget) -> *mut ScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(ptr: *mut QObject) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(ptr: *mut QFrame) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr: *mut QAbstractScrollArea) -> *mut QScintillaEditBase;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(ptr: *mut QWidget) -> *mut QScintillaEditBase;
 
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(ptr: *mut ScintillaEditBase) -> *mut Widget;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(ptr: *mut ScintillaEditBase) -> *mut Object;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(ptr: *mut ScintillaEditBase) -> *mut Frame;
-    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(ptr: *mut ScintillaEditBase) -> *mut AbstractScrollArea;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(ptr: *mut QScintillaEditBase) -> *mut QWidget;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(ptr: *mut QScintillaEditBase) -> *mut QObject;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(ptr: *mut QScintillaEditBase) -> *mut QFrame;
+    pub fn qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(ptr: *mut QScintillaEditBase) -> *mut QAbstractScrollArea;
 
-    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_custom_slot(ptr: *mut slots::RawSlotSCNotificationPtr, arg0: *const SCNotification);
-    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_new() -> *mut slots::RawSlotSCNotificationPtr;
-    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(ptr: *mut slots::RawSlotSCNotificationPtr, func: extern "C" fn(*mut c_void, *const SCNotification), data: *mut c_void);
-    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(ptr: *mut slots::RawSlotSCNotificationPtr);
-    pub fn qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(ptr: *mut slots::RawSlotSCNotificationPtr) -> *mut Object;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_metaObject(
+        this_ptr: *const SlotOfSCNotification,
+    ) -> *const QMetaObject;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr(
+        parent: *mut QObject,
+        callback: ::std::option::Option<extern "C" fn(*mut ::std::ffi::c_void, *mut SCNotification)>,
+        deleter: ::std::option::Option<extern "C" fn(*mut ::std::ffi::c_void)>,
+        data: *mut ::std::ffi::c_void,
+    ) -> *mut SlotOfSCNotification;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_metacall(
+        this_ptr: *mut SlotOfSCNotification,
+        arg1: q_meta_object::Call,
+        arg2: ::std::os::raw::c_int,
+        arg3: *mut *mut ::std::ffi::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_metacast(
+        this_ptr: *mut SlotOfSCNotification,
+        arg1: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::ffi::c_void;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(
+        this_ptr: *mut SlotOfSCNotification,
+        callback: ::std::option::Option<
+            extern "C" fn(*mut ::std::ffi::c_void, *mut SCNotification),
+        >,
+        deleter: ::std::option::Option<extern "C" fn(*mut ::std::ffi::c_void)>,
+        data: *mut ::std::ffi::c_void,
+    );
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_slot_(
+        this_ptr: *mut SlotOfSCNotification,
+        arg0: *mut SCNotification,
+    );
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_staticMetaObject(
+    ) -> *const QMetaObject;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_tr(
+        s: *const ::std::os::raw::c_char,
+        c: *const ::std::os::raw::c_char,
+        n: ::std::os::raw::c_int,
+    ) -> *mut QString;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_trUtf8(
+        s: *const ::std::os::raw::c_char,
+        c: *const ::std::os::raw::c_char,
+        n: ::std::os::raw::c_int,
+    ) -> *mut QString;
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(
+        this_ptr: *mut SlotOfSCNotification,
+    );
+    pub fn qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_static_cast_QObject_ptr(
+        ptr: *mut SlotOfSCNotification
+    ) -> *mut QObject;
 }
 
 /// C++ type: <span style='color: green;'>```QCustomEventFilter```</span>
 #[repr(C)]
-pub struct ScintillaEditBase(u8);
+pub struct QScintillaEditBase(u8);
 
-impl ScintillaEditBase {
-    pub fn new() -> CppBox<ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_new_no_args() };
-        unsafe { CppBox::new(ffi_result) }
+impl QScintillaEditBase {
+    #[inline(always)]
+    pub fn notify(&self) -> Signal<(*mut SCNotification,)> {
+        unsafe {
+            Signal::new(
+                Ref::from_raw(self).expect("attempted to construct a null Ref"),
+                ::std::ffi::CStr::from_bytes_with_nul_unchecked(b"2notify(SCNotification*)\0"),
+            )
+        }
     }
-    pub unsafe fn with_parent(parent: *mut Widget) -> CppBox<ScintillaEditBase> {
+}
+
+impl QScintillaEditBase {
+    pub fn new() -> QBox<QScintillaEditBase> {
+        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_new_no_args() };
+        unsafe { QBox::new(ffi_result) }
+    }
+    pub unsafe fn with_parent(parent: *mut QWidget) -> QBox<QScintillaEditBase> {
         let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_new(parent);
-        CppBox::new(ffi_result)
+        QBox::new(ffi_result)
     }
     pub unsafe fn send(&self, message: u32, wparam: usize, lparam: isize) -> *mut c_void {
-        qt_widgets_c_scintilla_ScintillaEditBase_send(self as *const _ as *mut ScintillaEditBase, message, wparam as c_ulong, lparam as c_long)
+        qt_widgets_c_scintilla_ScintillaEditBase_send(self as *const _ as *mut QScintillaEditBase, message, wparam as c_ulong, lparam as c_long)
     }
 }
-impl CppDeletable for ScintillaEditBase {
-    fn deleter() -> Deleter<Self> {
-        qt_widgets_c_scintilla_ScintillaEditBase_delete
-    }
-}
-
-impl DynamicCast<ScintillaEditBase> for AbstractScrollArea {
-    fn dynamic_cast_mut(&mut self) -> Option<&mut ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(self as *mut AbstractScrollArea) };
-        unsafe { ffi_result.as_mut() }
-    }
-
-    fn dynamic_cast(&self) -> Option<&ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(self as *const AbstractScrollArea as *mut AbstractScrollArea) };
-        unsafe { ffi_result.as_ref() }
-    }
-}
-impl DynamicCast<ScintillaEditBase> for Frame {
-    fn dynamic_cast_mut(&mut self) -> Option<&mut ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(self as *mut Frame) };
-        unsafe { ffi_result.as_mut() }
-    }
-
-    fn dynamic_cast(&self) -> Option<&ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(self as *const Frame as *mut Frame) };
-        unsafe { ffi_result.as_ref() }
-    }
-}
-impl DynamicCast<ScintillaEditBase> for Widget {
-    fn dynamic_cast_mut(&mut self) -> Option<&mut ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QWidget(self as *mut Widget) };
-        unsafe { ffi_result.as_mut() }
-    }
-
-    fn dynamic_cast(&self) -> Option<&ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QWidget(self as *const Widget as *mut Widget) };
-        unsafe { ffi_result.as_ref() }
-    }
-}
-impl DynamicCast<ScintillaEditBase> for Object {
-    fn dynamic_cast_mut(&mut self) -> Option<&mut ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QObject(self as *mut Object) };
-        unsafe { ffi_result.as_mut() }
-    }
-
-    fn dynamic_cast(&self) -> Option<&ScintillaEditBase> {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QObject(self as *const Object as *mut Object) };
-        unsafe { ffi_result.as_ref() }
+impl CppDeletable for QScintillaEditBase {
+    unsafe fn delete(&self) {
+        qt_widgets_c_scintilla_ScintillaEditBase_delete(self as *const QScintillaEditBase as *mut QScintillaEditBase)
     }
 }
 
-impl StaticCast<Object> for ScintillaEditBase {
-    fn static_cast_mut(&mut self) -> &mut Object {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(self as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
-    }
-
-    fn static_cast(&self) -> &Object {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(self as *const ScintillaEditBase as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
-    }
-}
-impl StaticCast<Widget> for ScintillaEditBase {
-    fn static_cast_mut(&mut self) -> &mut Widget {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(self as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
-    }
-
-    fn static_cast(&self) -> &Widget {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(self as *const ScintillaEditBase as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
-    }
-}
-impl StaticCast<Frame> for ScintillaEditBase {
-    fn static_cast_mut(&mut self) -> &mut Frame {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(self as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
-    }
-
-    fn static_cast(&self) -> &Frame {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(self as *const ScintillaEditBase as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
-    }
-}
-impl StaticCast<AbstractScrollArea> for ScintillaEditBase {
-    fn static_cast_mut(&mut self) -> &mut AbstractScrollArea {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(self as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
-    }
-
-    fn static_cast(&self) -> &AbstractScrollArea {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(self as *const ScintillaEditBase as *mut ScintillaEditBase) };
+impl ::std::ops::Deref for QScintillaEditBase {
+    type Target = QWidget;
+    /// Calls C++ function: <span style='color: green;'>```QWidget* static_cast<QWidget*>(QAbstractSpinBox* ptr)```</span>.
+    #[inline(always)]
+    fn deref(&self) -> &QWidget {
+        let ffi_result = {
+            unsafe {
+                qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(self as *const _ as *mut QScintillaEditBase)
+            }
+        };
         unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
     }
 }
 
-impl UnsafeStaticCast<ScintillaEditBase> for Object {
-    unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(self as *mut Object);
-        ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
+impl DynamicCast<QScintillaEditBase> for QAbstractScrollArea {
+    unsafe fn dynamic_cast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr.as_raw_ptr() as *mut QAbstractScrollArea);
+        Ptr::from_raw(ffi_result)
     }
-
-    unsafe fn static_cast(&self) -> &ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(self as *const Object as *mut Object);
-        ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+}
+impl DynamicCast<QScintillaEditBase> for QFrame {
+    unsafe fn dynamic_cast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QFrame(ptr.as_raw_ptr() as *mut QFrame);
+        Ptr::from_raw(ffi_result)
+    }
+}
+impl DynamicCast<QScintillaEditBase> for QWidget {
+    unsafe fn dynamic_cast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QWidget(ptr.as_raw_ptr() as *mut QWidget);
+        Ptr::from_raw(ffi_result)
+    }
+}
+impl DynamicCast<QScintillaEditBase> for QObject {
+    unsafe fn dynamic_cast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_dynamic_cast_ScintillaEditBase_ptr_QObject(ptr.as_raw_ptr() as *mut QObject);
+        Ptr::from_raw(ffi_result)
     }
 }
 
-impl UnsafeStaticCast<ScintillaEditBase> for Frame {
-    unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(self as *mut Frame);
-        ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
+impl StaticUpcast<QObject> for QScintillaEditBase {
+    unsafe fn static_upcast(ptr: Ptr<Self>) -> Ptr<QObject> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QObject_ptr(ptr.as_raw_ptr() as *mut QScintillaEditBase);
+        Ptr::from_raw(ffi_result)
     }
-
-    unsafe fn static_cast(&self) -> &ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(self as *const Frame as *mut Frame);
-        ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+}
+impl StaticUpcast<QWidget> for QScintillaEditBase {
+    unsafe fn static_upcast(ptr: Ptr<Self>) -> Ptr<QWidget> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(ptr.as_raw_ptr() as *mut QScintillaEditBase);
+        Ptr::from_raw(ffi_result)
+    }
+}
+impl StaticUpcast<QFrame> for QScintillaEditBase {
+    unsafe fn static_upcast(ptr: Ptr<Self>) -> Ptr<QFrame> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QFrame_ptr(ptr.as_raw_ptr() as *mut QScintillaEditBase);
+        Ptr::from_raw(ffi_result)
+    }
+}
+impl StaticUpcast<QAbstractScrollArea> for QScintillaEditBase {
+    unsafe fn static_upcast(ptr: Ptr<Self>) -> Ptr<QAbstractScrollArea> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QAbstractScrollArea_ptr(ptr.as_raw_ptr() as *mut QScintillaEditBase);
+        Ptr::from_raw(ffi_result)
     }
 }
 
-impl UnsafeStaticCast<ScintillaEditBase> for AbstractScrollArea {
-    unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(self as *mut AbstractScrollArea);
-        ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
-    }
-
-    unsafe fn static_cast(&self) -> &ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(self as *const AbstractScrollArea as *mut AbstractScrollArea);
-        ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+impl StaticDowncast<QScintillaEditBase> for QObject {
+    unsafe fn static_downcast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QObject(ptr.as_raw_ptr() as *mut QObject);
+        Ptr::from_raw(ffi_result)
     }
 }
 
-impl UnsafeStaticCast<ScintillaEditBase> for Widget {
-    unsafe fn static_cast_mut(&mut self) -> &mut ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(self as *mut Widget);
-        ffi_result.as_mut().expect("Attempted to convert null pointer to reference")
-    }
-
-    unsafe fn static_cast(&self) -> &ScintillaEditBase {
-        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(self as *const Widget as *mut Widget);
-        ffi_result.as_ref().expect("Attempted to convert null pointer to reference")
+impl StaticDowncast<QScintillaEditBase> for QFrame {
+    unsafe fn static_downcast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QFrame(ptr.as_raw_ptr() as *mut QFrame);
+        Ptr::from_raw(ffi_result)
     }
 }
 
-impl Deref for ScintillaEditBase {
-    type Target = Widget;
-    fn deref(&self) -> &Widget {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(self as *const ScintillaEditBase as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
+impl StaticDowncast<QScintillaEditBase> for QAbstractScrollArea {
+    unsafe fn static_downcast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QAbstractScrollArea(ptr.as_raw_ptr() as *mut QAbstractScrollArea);
+        Ptr::from_raw(ffi_result)
     }
 }
 
-impl DerefMut for ScintillaEditBase {
-    fn deref_mut(&mut self) -> &mut Widget {
-        let ffi_result = unsafe { qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_QWidget_ptr(self as *mut ScintillaEditBase) };
-        unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
+impl StaticDowncast<QScintillaEditBase> for QWidget {
+    unsafe fn static_downcast(ptr: Ptr<Self>) -> Ptr<QScintillaEditBase> {
+        let ffi_result = qt_widgets_c_scintilla_ScintillaEditBase_G_static_cast_ScintillaEditBase_ptr_QWidget(ptr.as_raw_ptr() as *mut QWidget);
+        Ptr::from_raw(ffi_result)
     }
 }
 
@@ -265,176 +260,175 @@ impl DerefMut for ScintillaEditBase {
 
 */
 
-pub mod connection {
-    use super::*;
-    pub struct Signals<'a>(&'a ScintillaEditBase);
-
-    pub struct HorizontalScrolled<'a>(&'a ScintillaEditBase);
-    impl<'a> Receiver for HorizontalScrolled<'a> {
-        type Arguments = (i32);
-        fn object(&self) -> &Object {
-            self.0.static_cast()
-        }
-        fn receiver_id() -> &'static [u8] {
-            b"2horizontalScrolled(i32)\0"
-        }
-    }
-    impl<'a> Signal for HorizontalScrolled<'a> {}
-
-    pub struct Notify<'a>(&'a ScintillaEditBase);
-    impl<'a> Receiver for Notify<'a> {
-        type Arguments = (&'static SCNotification,);
-        fn object(&self) -> &Object {
-            self.0.static_cast()
-        }
-        fn receiver_id() -> &'static [u8] {
-            b"2notify(SCNotification*)\0"
-        }
-    }
-    impl<'a> Signal for Notify<'a> {}
-
-    impl<'a> Signals<'a> {
-        pub fn horizontal_scrolled(&self) -> HorizontalScrolled {
-            HorizontalScrolled(self.0)
-        }
-        pub fn notify(&self) -> Notify {
-            Notify(self.0)
-        }
-    }
-
-    pub struct Slots<'a>(&'a ScintillaEditBase);
-
-    pub struct EventCommand<'a>(&'a ScintillaEditBase);
-    impl<'a> Receiver for EventCommand<'a> {
-        type Arguments = (u32, i32);
-        fn object(&self) -> &Object {
-            self.0.static_cast()
-        }
-        fn receiver_id() -> &'static [u8] {
-            b"1event_command(uptr_t, sptr_t)\0"
-        }
-    }
-    impl<'a> Slots<'a> {
-        pub fn event_command(&self) -> EventCommand {
-            EventCommand(self.0)
-        }
-    }
-    impl ScintillaEditBase {
-        pub fn signals(&self) -> Signals {
-            Signals(self)
-        }
-        pub fn slots(&self) -> Slots {
-            Slots(self)
-        }
-    }
-}
-
-pub mod slots {
-    use super::*;
-
-    #[repr(C)]
-    pub struct RawSlotSCNotificationPtr(u8);
-
-    impl StaticCast<Object> for RawSlotSCNotificationPtr {
-        fn static_cast_mut(&mut self) -> &mut Object {
-            let ffi_result = unsafe { qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(self as *mut RawSlotSCNotificationPtr) };
-            unsafe { ffi_result.as_mut() }.expect("Attempted to convert null pointer to reference")
-        }
-
-        fn static_cast(&self) -> &Object {
-            let ffi_result = unsafe { qt_widgets_c_slots_G_static_cast_QObject_ptr_qt_widgets_c_SlotWrapper_SCNotification_ptr(self as *const RawSlotSCNotificationPtr as *mut RawSlotSCNotificationPtr) };
-            unsafe { ffi_result.as_ref() }.expect("Attempted to convert null pointer to reference")
-        }
-    }
-
-    impl super::Receiver for RawSlotSCNotificationPtr {
-        type Arguments = (&'static SCNotification,);
-        fn object(&self) -> &Object {
-            StaticCast::static_cast(self)
-        }
-        fn receiver_id() -> &'static [u8] {
-            b"1custom_slot(SCNotification*)\0"
-        }
-    }
-    impl RawSlotSCNotificationPtr {
-        pub fn custom_slot(&mut self, arg0: &'static SCNotification) {
-            unsafe { qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_custom_slot(self as *mut RawSlotSCNotificationPtr, arg0) }
-        }
-
-        pub fn new() -> CppBox<RawSlotSCNotificationPtr> {
-            let ffi_result = unsafe { qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_new() };
-            unsafe { CppBox::new(ffi_result) }
-        }
-
-        pub unsafe fn set(&mut self, func: extern "C" fn(*mut c_void, *const SCNotification), data: *mut c_void) {
-            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(self as *mut RawSlotSCNotificationPtr, func, data)
-        }
-    }
-
-    impl CppDeletable for RawSlotSCNotificationPtr {
-        fn deleter() -> Deleter<Self> {
-            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete
-        }
-    }
-}
-
-pub struct SlotSCNotificationPtr<'a> {
-    wrapper: CppBox<slots::RawSlotSCNotificationPtr>,
-    func: Option<Box<Box<FnMut(&'static SCNotification) + 'a>>>,
-}
-
-impl<'a> SlotSCNotificationPtr<'a> {
-    /// Constructs a new object.
-    pub fn new<F: FnMut(&'static SCNotification) + 'a>(f: F) -> SlotSCNotificationPtr<'a> {
-        let mut obj = SlotSCNotificationPtr::default();
-        obj.set(f);
-        obj
-    }
-
-    /// Sets `f` as the callback closure. If `set()` is called again, previous closure is dropped.
-    pub fn set<F: FnMut(&'static SCNotification) + 'a>(&mut self, f: F) {
-        self.clear();
-        let mut func_box: Box<Box<FnMut(&'static SCNotification) + 'a>> = Box::new(Box::new(f));
+impl AsReceiver for SlotOfSCNotification {
+    type Arguments = (*mut crate::SCNotification,);
+    fn as_receiver(&self) -> Receiver<Self::Arguments> {
         unsafe {
-            self.wrapper.set(slot_scnotification_ptr_callback, ::std::mem::transmute(func_box.as_mut()));
+            Receiver::new(
+                Ref::from_raw(self).expect("attempted to construct a null Ref"),
+                ::std::ffi::CStr::from_bytes_with_nul_unchecked(b"slot_(SCNotification*)\0"),
+            )
         }
-        self.func = Some(func_box);
+    }
+}
+
+#[repr(C)]
+pub struct SlotOfSCNotification {
+    _unused: u8,
+}
+impl CppDeletable for SlotOfSCNotification {
+    unsafe fn delete(&self) {
+        qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_delete(self as *const SlotOfSCNotification as *mut SlotOfSCNotification);
+    }
+}
+impl StaticUpcast<QObject> for SlotOfSCNotification {
+    unsafe fn static_upcast(ptr: Ptr<Self>) -> Ptr<QObject> {
+        let ffi_result = qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_static_cast_QObject_ptr(ptr.as_raw_ptr() as *mut SlotOfSCNotification);
+        Ptr::from_raw(ffi_result)
+    }
+}
+impl SlotOfSCNotification {
+    #[inline(always)]
+    pub unsafe fn meta_object(&self) -> Ptr<QMetaObject> {
+        let ffi_result = {
+            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_metaObject(
+                self as *const SlotOfSCNotification,
+            )
+        };
+        Ptr::from_raw(ffi_result as *mut QMetaObject)
     }
 
-    /// Drops the previously set closure, if any. After this, slot invokation will have no effect
-    /// until a new closure is set.
-    pub fn clear(&mut self) {
-        if self.func.is_some() {
-            unsafe {
-                self.wrapper.set(::std::mem::transmute(0usize), ::std::ptr::null_mut());
+    /// Creates a new object.
+    #[inline(always)]
+    pub unsafe fn new<T: FnMut(Ref<SCNotification>) + 'static>(
+        parent: impl CastInto<Ptr<QObject>>,
+        callback: T,
+    ) -> ::qt_core::QBox<SlotOfSCNotification> {
+        let ffi_result = {
+            extern "C" fn deleter<T>(data: *mut ::std::ffi::c_void) {
+                unsafe {
+                    let _ = Box::from_raw(data as *mut T);
+                }
             }
-            self.func = None;
+            extern "C" fn ffi_callback<
+                T: FnMut(Ref<SCNotification>) + 'static,
+            >(
+                data: *mut ::std::ffi::c_void,
+                arg0: *mut SCNotification,
+            ) {
+                unsafe {
+                    (*(data as *mut T))(
+                        Ref::from_raw(arg0 as *mut SCNotification)
+                            .expect("attempted to construct a null Ref"),
+                    )
+                }
+            }
+            let data = Box::into_raw(Box::new(callback)) as *mut ::std::ffi::c_void;
+            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr(CastInto::<Ptr<QObject>>::cast_into(parent).as_raw_ptr() as *mut QObject, Some(ffi_callback::<T>), Some(deleter::<T>), data)
+        };
+        ::qt_core::QBox::from_raw(ffi_result)
+    }
+
+    #[inline(always)]
+    pub unsafe fn qt_metacall(
+        &self,
+        arg1: q_meta_object::Call,
+        arg2: ::std::os::raw::c_int,
+        arg3: *mut *mut ::std::ffi::c_void,
+    ) -> ::std::os::raw::c_int {
+        qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_metacall(
+            self as *const SlotOfSCNotification as *mut SlotOfSCNotification,
+            arg1,
+            arg2,
+            arg3,
+        )
+    }
+
+    #[inline(always)]
+    pub unsafe fn qt_metacast(
+        &self,
+        arg1: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::ffi::c_void {
+        qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_qt_metacast(
+            self as *const SlotOfSCNotification as *mut SlotOfSCNotification,
+            arg1,
+        )
+    }
+
+    /// Assigns `callback` as the signal handler.
+    ///
+    /// `func` will be called each time a connected signal is emitted. Any previously assigned function will be deregistered. Passing `None` will deregister the handler without setting a new one.
+    #[inline(always)]
+    pub unsafe fn set<T: FnMut(Ref<SCNotification>) + 'static>(
+        &self,
+        callback: T,
+    ) {
+        extern "C" fn deleter<T>(data: *mut ::std::ffi::c_void) {
+            unsafe {
+                let _ = Box::from_raw(data as *mut T);
+            }
         }
-    }
-}
-
-impl<'a> Default for SlotSCNotificationPtr<'a> {
-    fn default() -> Self {
-        SlotSCNotificationPtr {
-            wrapper: slots::RawSlotSCNotificationPtr::new(),
-            func: None,
+        extern "C" fn ffi_callback<T: FnMut(Ref<SCNotification>) + 'static>(
+            data: *mut ::std::ffi::c_void,
+            arg0: *mut SCNotification,
+        ) {
+            unsafe {
+                (*(data as *mut T))(
+                    Ref::from_raw(arg0 as *mut SCNotification)
+                        .expect("attempted to construct a null Ref"),
+                )
+            }
         }
+        let data = Box::into_raw(Box::new(callback)) as *mut ::std::ffi::c_void;
+        qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_set(
+            self as *const SlotOfSCNotification as *mut SlotOfSCNotification,
+            Some(ffi_callback::<T>),
+            Some(deleter::<T>),
+            data,
+        )
     }
-}
 
-impl<'a> Receiver for SlotSCNotificationPtr<'a> {
-    type Arguments = (&'static SCNotification,);
-    fn object(&self) -> &Object {
-        Receiver::object(self.wrapper.as_ref())
+    /// Calls the slot directly, invoking the assigned handler (if any).
+    #[inline(always)]
+    pub unsafe fn slot(&self, arg0: *mut SCNotification) {
+        qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_slot_(
+            self as *const SlotOfSCNotification as *mut SlotOfSCNotification,
+            arg0,
+        )
     }
-    fn receiver_id() -> &'static [u8] {
-        <slots::RawSlotSCNotificationPtr as Receiver>::receiver_id()
+
+    #[inline(always)]
+    pub unsafe fn static_meta_object() -> Ref<QMetaObject> {
+        let ffi_result = {
+            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_staticMetaObject()
+        };
+        Ref::from_raw(ffi_result as *mut QMetaObject)
+            .expect("attempted to construct a null Ref")
     }
-}
 
-//impl ArgumentsCompatible<(&'static SCNotification,)> for (&'static SCNotification,) {}
+    #[inline(always)]
+    pub unsafe fn tr(
+        s: *const ::std::os::raw::c_char,
+        c: *const ::std::os::raw::c_char,
+        n: ::std::os::raw::c_int,
+    ) -> CppBox<QString> {
+        let ffi_result = {
+            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_tr(s, c, n)
+        };
+        CppBox::from_raw(ffi_result).expect("attempted to construct a null CppBox")
+    }
 
-extern "C" fn slot_scnotification_ptr_callback(data: *mut c_void, arg0: *const SCNotification) {
-    let func: &mut Box<FnMut(&'static SCNotification)> = unsafe { ::std::mem::transmute(data) };
-    func(unsafe { &*arg0 });
+    #[inline(always)]
+    pub unsafe fn tr_utf8(
+        s: *const ::std::os::raw::c_char,
+        c: *const ::std::os::raw::c_char,
+        n: ::std::os::raw::c_int,
+    ) -> CppBox<QString> {
+        let ffi_result = {
+            qt_core_c_qt_core_c_SlotWrapper_SCNotification_ptr_trUtf8(
+                s, c, n,
+            )
+        };
+        CppBox::from_raw(ffi_result).expect("attempted to construct a null CppBox")
+    }
 }
