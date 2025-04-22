@@ -10,7 +10,7 @@ pub fn main() {
     {
         panic!("The feature `cocoa` is available on the OSX/MacOS platforms only.");
     }
-    Command::new("git").args(&["checkout", "rel-4-0-2"]).status().unwrap();
+    Command::new("git").args(&["checkout", "rel-5-5-2"]).status().unwrap();
 
     env::set_current_dir("cocoa/ScintillaFramework").expect("Could not change dir");
     Command::new("xcodebuild").status().unwrap();
