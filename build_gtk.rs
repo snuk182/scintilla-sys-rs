@@ -5,7 +5,7 @@ use std::env;
 use std::process::Command;
 
 pub fn main() {
-    Command::new("git").args(&["checkout", "rel-4-0-2"]).status().unwrap();
+    Command::new("git").args(&["checkout", "rel-5-5-2"]).status().unwrap();
 
     env::set_current_dir("gtk").expect("Could not change dir to 'gtk'");
 
@@ -22,8 +22,10 @@ pub fn main() {
         .file("../src/CallTip.cxx")
         .file("../src/CaseConvert.cxx")
         .file("../src/CaseFolder.cxx")
-        .file("../src/Catalogue.cxx")
         .file("../src/CellBuffer.cxx")
+        .file("../src/ChangeHistory.cxx")
+        .file("../src/CharacterCategoryMap.cxx")
+        .file("../src/CharacterType.cxx")
         .file("../src/CharClassify.cxx")
         .file("../src/ContractionState.cxx")
         .file("../src/DBCS.cxx")
@@ -32,7 +34,8 @@ pub fn main() {
         .file("../src/EditModel.cxx")
         .file("../src/Editor.cxx")
         .file("../src/EditView.cxx")
-        .file("../src/ExternalLexer.cxx")
+        //.file("../src/ExternalLexer.cxx")
+        .file("../src/Geometry.cxx")
         .file("../src/Indicator.cxx")
         .file("../src/KeyMap.cxx")
         .file("../src/LineMarker.cxx")
@@ -45,9 +48,11 @@ pub fn main() {
         .file("../src/Selection.cxx")
         .file("../src/Style.cxx")
         .file("../src/UniConversion.cxx")
+        .file("../src/UniqueString.cxx")
+        .file("../src/UndoHistory.cxx")
         .file("../src/ViewStyle.cxx")
         .file("../src/XPM.cxx")
-        .file("../lexlib/Accessor.cxx")
+        /*.file("../lexlib/Accessor.cxx")
         .file("../lexlib/CharacterCategory.cxx")
         .file("../lexlib/CharacterSet.cxx")
         .file("../lexlib/DefaultLexer.cxx")
@@ -162,7 +167,7 @@ pub fn main() {
         .file("../lexers/LexVerilog.cxx")
         .file("../lexers/LexVHDL.cxx")
         .file("../lexers/LexVisualProlog.cxx")
-        .file("../lexers/LexYAML.cxx");
+        .file("../lexers/LexYAML.cxx")*/;
 
     let gtk_probe = pkg_config::Config::new().atleast_version("3.0").probe("gtk+-3.0").unwrap();
     let glib_probe = pkg_config::Config::new().atleast_version("2.0").probe("glib-2.0").unwrap();
@@ -189,7 +194,7 @@ pub fn main() {
         .define("SCI_LEXER", None)
         //.define("CHECK_DEPRECATED", None)
         //.define("NOTHREADS", None)
-        .flag("-std=c++17")
+        .flag("--std=c++17")
         .file("PlatGTK.cxx")
         .file("ScintillaGTKAccessible.cxx")
         .file("ScintillaGTK.cxx");

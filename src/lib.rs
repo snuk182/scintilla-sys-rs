@@ -11,6 +11,7 @@ mod lib_qt;
 pub use lib_qt::*;
 
 #[cfg(feature = "gtk3")]
+#[macro_use]
 extern crate gtk;
 #[cfg(feature = "gtk3")]
 #[macro_use]

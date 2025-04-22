@@ -1,7 +1,6 @@
 [package]
 name = "scintilla-sys"
-#version = "4.0.2" # this is the actual Scintilla version
-version = "4.0.9"
+version = "5.5.7"
 authors = ["Serhii Plyhun <snuk188@gmail.com>"]
 description = "Raw bindings to Scintilla Text Editor component"
 homepage = "https://github.com/snuk182/scintilla-sys-rs"
@@ -21,11 +20,11 @@ qt_gui = {version = "^0.5", optional = true}
 qt_widgets = {version = "^0.5", optional = true}
 qt_core_custom_events = {version = "~0.2", optional = true}
 
-gtk = { version = "^0.4", features = ["v3_18"], optional = true }
-glib = { version = "^0.5", optional = true }
-glib-sys = { version = "^0.6", optional = true }
-gobject-sys = { version = "^0.6", optional = true }
-gtk-sys = { version = "^0.6", optional = true }
+gtk = { version = "^0.18", features = ["v3_24"], optional = true }
+glib = { version = "^0.18", optional = true }
+glib-sys = { version = "^0.18", optional = true }
+gobject-sys = { version = "^0.18", optional = true }
+gtk-sys = { version = "^0.18", optional = true }
 
 [features]
 win32 = ["cc", "embed-resource"]
